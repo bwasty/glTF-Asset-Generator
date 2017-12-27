@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.IO;
+using System.Net;
 
 namespace AssetGenerator
 {
@@ -82,11 +83,13 @@ namespace AssetGenerator
 
         public void SetupTable(ModelGroup test, int comboIndex, List<List<Property>> combos)
         {
+            var modelFileName = test.modelGroupName.ToString() + '_' + comboIndex.ToString("D2") + ".gltf";
             mdLog.Add(new List<string> // New row for a new model
-                    {
-                        // Displays the number of the model and is a link to the model
-                        '[' + comboIndex.ToString("D2") + "](./" + test.modelGroupName.ToString() + '_' + comboIndex.ToString("D2") + ".gltf)"
-                    });
+                {
+                    // Displays the number of the model and is a link to the model
+                    '[' + comboIndex.ToString("D2") + "](./" + modelFileName + ")" +
+                    " [Preview](https://bghgary.github.io/glTF-Asset-Generator/Preview/BabylonJS/?fileName=" + WebUtility.UrlEncode(modelFileName) + ")"
+                });
             int logIndex = mdLog.Count - 1;
             List<int> nonBinaryUsed = new List<int>();
             foreach (var possibleAttribute in test.properties)
